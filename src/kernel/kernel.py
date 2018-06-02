@@ -53,6 +53,16 @@ class PlainWalk(Kernel):
     def scaler(self):
         return Rho(self.A)
 
+class LogPlainWalk(Kernel):
+    name = 'LogPlainWalk'
+
+    def get_K(self, param):
+        k = np.nan_to_num(np.linalg.pinv(np.eye(self.n) - param * self.A))
+        return np.log(k)
+
+    @property
+    def scaler(self):
+        return Rho(self.A)
 
 class Communicability(Kernel):
     name = 'Communicability'
@@ -64,6 +74,16 @@ class Communicability(Kernel):
     def scaler(self):
         return Fraction(self.A)
 
+class LogCommunicability(Kernel):
+    name = 'LogCommunicability'
+
+    def get_K(self, param):
+        k = np.nan_to_num(expm(param * self.A))
+        return k
+
+    @property
+    def scaler(self):
+        return Fraction(self.A)
 
 class Forest(Kernel):
     name = 'Forest'
@@ -75,6 +95,16 @@ class Forest(Kernel):
     def scaler(self):
         return Fraction(self.A)
 
+class LogForest(Kernel):
+    name = 'LogForest'
+
+    def get_K(self, param):
+        k = np.nan_to_num(np.linalg.pinv(np.eye(self.n) + param * self.get_L()))
+        return k
+
+    @property
+    def scaler(self):
+        return Fraction(self.A)
 
 class Heat(Kernel):
     name = 'Heat'
@@ -86,5 +116,16 @@ class Heat(Kernel):
     def scaler(self):
         return Fraction(self.A)
 
+class LogHeat(Kernel):
+    name = 'LogHeat'
+
+    def get_K(self, param):
+        k = np.nan_to_num(expm(-param * self.get_L()))
+        return k
+
+    @property
+    def scaler(self):
+        return Fraction(self.A)
+
 def get_all_kernels():
-    return [PlainWalk, Communicability, Forest, Heat]
+    return [PlainWalk, LogPlainWalk, Communicability, LogCommunicability, Forest, LogForest, Heat, LogHeat]
