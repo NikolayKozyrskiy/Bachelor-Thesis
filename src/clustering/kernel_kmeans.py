@@ -4,14 +4,6 @@ from sklearn.utils import check_random_state
 
 
 class KernelKMeans(BaseEstimator, ClusterMixin):
-    """
-    Kernel K-means
-    Reference
-    ---------
-    Kernel k-means, Spectral Clustering and Normalized Cuts.
-    Inderjit S. Dhillon, Yuqiang Guan, Brian Kulis.
-    KDD 2004.
-    """
 
     def __init__(self, n_clusters=3, max_iter=50, tol=1e-3, random_state=None,
                  kernel="linear", gamma=None, degree=3, coef0=1,
@@ -55,15 +47,17 @@ class KernelKMeans(BaseEstimator, ClusterMixin):
         return self
 
     def _compute_dist(self, K, dist, within_distances, update_within):
-        """Compute a n_samples x n_clusters distance matrix using the
+        """Compute n_samples x n_clusters distance matrix using the
         kernel trick."""
         sw = self.sample_weight_
 
-        for j in range(self.n_clusters):
-            mask = self.labels_ == j
+        for i in range(self.n_clusters):
+            mask = self.labels_ == i
 
             if np.sum(mask) == 0:
-                raise ValueError("Empty cluster found, try smaller n_cluster.")
+                print("Empty cluster found, try smaller n_cluster")
+                break
+                # raise ValueError("Empty cluster found, try smaller n_cluster.")
 
             denom = sw[mask].sum()
             denomsq = denom * denom
@@ -71,12 +65,12 @@ class KernelKMeans(BaseEstimator, ClusterMixin):
             if update_within:
                 KK = K[mask][:, mask]  # K[mask, mask] does not work.
                 dist_j = np.sum(np.outer(sw[mask], sw[mask]) * KK / denomsq)
-                within_distances[j] = dist_j
-                dist[:, j] += dist_j
+                within_distances[i] = dist_j
+                dist[:, i] += dist_j
             else:
-                dist[:, j] += within_distances[j]
+                dist[:, i] += within_distances[i]
 
-            dist[:, j] -= 2 * np.sum(sw[mask] * K[:, mask], axis=1) / denom
+            dist[:, i] -= 2 * np.sum(sw[mask] * K[:, mask], axis=1) / denom
 
     def predict(self, K):
         n_samples = K.shape[0]

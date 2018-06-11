@@ -1,0 +1,113 @@
+\documentclass[a4paper,12pt,oneside]{scrartcl}
+
+% Setup page
+\usepackage[top=2.0cm, bottom=2.0cm, left=3cm, right=1.5cm, footskip=0.5cm]{geometry}
+\usepackage{epsfig}
+
+% Base packages
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\usepackage{comment}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{longtable}
+\usepackage{csquotes}
+\usepackage{setspace}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage{listings}
+
+%setup listings
+\lstset{language=C++,
+                %basicstyle=\ttfamily,
+                keywordstyle=\color{blue},%\ttfamily,
+                stringstyle=\color{red},%\ttfamily,
+                commentstyle=\color{green},%\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+
+% Setup Russian hyphenation
+\usepackage{polyglossia}
+\setdefaultlanguage[spelling=modern]{russian} % for polyglossia
+\setotherlanguage{english} % for polyglossia
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}
+
+% Setup fonts
+\newfontfamily\russianfont{CMU Serif}
+\setromanfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+
+\setstretch{1.25}
+
+% Be able to include PNG and PDF as images
+\usepackage{graphicx}
+
+% Be able to insert hyperlinks
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, filecolor=black, citecolor=black, urlcolor=black , pdfauthor=Grigory Rechistov <grigory.rechistov@phystech.edu>, pdftitle=Шаблон для написания диплома в LaTeX}
+\usepackage{url}
+
+% Misc optional packages
+\usepackage{footnpag}
+\usepackage{indentfirst}
+\usepackage{underscore}
+\usepackage{amsthm}
+\usepackage{enumitem} % continue enumeration 
+\usepackage{mdwlist} % compact itemize lists environment
+\usepackage{mdwlist} % compact itemize lists environment
+%\renewcommand{\labelitemi}{--}  % Use endash for itemized lists
+\usepackage[hang,flushmargin]{footmisc} % correct indent for footnotes
+
+
+% Attach TikZ/PGF system to be able to draw vector plots.
+% \usepackage{tikz}
+% \usetikzlibrary{shapes, calc, arrows, fit, positioning, decorations, patterns, decorations.pathreplacing,chains, snakes}
+
+% A new command to mark not done places
+\newcommand{\todo}[1][Напиши меня]{{\color{red}TODO\ #1}}
+
+\begin{document}
+
+\input{title}
+\cleardoublepage
+
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\cleardoublepage
+
+
+\section{Введение}\label{sec:intro}
+
+Всем привет
+
+
+\cleardoublepage
+\begin{thebibliography}{99}
+\bibitem{B1} L. A. Belady. A study of replacement algorithms for a virtual-storage computer. In IBM Systems journal, pages 78–101, 1966.
+
+\bibitem{B2} M. K. Qureshi, A. Jaleel, Y. N. Patt, S. C. Steely, and J. Emer. Adaptive insertion policies for high performance caching. In ISCA-34, 2007.
+
+\bibitem{B3} K. So, R. N. Rechtschaffen.  Cache   Operations   by   MRU   Change. In IEEE Transaction Computers, Vol. 37, N. 6, IEEE Computer Society, pp. 700-709, 1988. 
+
+\bibitem{B4}  A. Gonzalez, C. Aliagas, and M. Valero. A data cache with multiple caching strategies tuned to different types of locality. In ICS-9, 1995.
+
+\bibitem{B5} N. Megiddo and D. S. Modha. ARC: A self-tuning, low overhead replacement cache. In Proceeding of the 2nd USENIX Conference on File and Storage Technologies, 2003
+
+\bibitem{B6} Y. Smaragdakis et al. The EELRU adaptive replacement algorithm. Performance Evaluation, 53(2):93–123, 2003
+
+\bibitem{B7} T. Austin, D. Ernst and E. Larson, "SimpleScalar: An Infrastructure for Computer System Modeling," in Computer, vol. 35, no. , pp. 59-67, 2002. 
+
+\bibitem{B8} J. Renau, B. Fraguela, J. Tuck, W. Lui, M. Prvulovic, L. Ceze, S. Sarangi, P. Sack, K. Struss, and P. Montesinos. Simulator for cmp architecture.
+
+\end{thebibliography}
+
+\addcontentsline{toc}{section}{Список литературы}
+%=====================================================
+\cleardoublepage
+
+\end{document}

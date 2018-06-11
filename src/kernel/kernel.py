@@ -47,7 +47,7 @@ class PlainWalk(Kernel):
     name = 'PlainWalk'
 
     def get_K(self, param):
-        return np.linalg.pinv(np.eye(self.n) - param * self.A)
+        return np.linalg.pinv(np.eye(self.n) - param * self.A).real
 
     @property
     def scaler(self):
@@ -57,7 +57,7 @@ class LogPlainWalk(Kernel):
     name = 'LogPlainWalk'
 
     def get_K(self, param):
-        k = np.nan_to_num(np.linalg.pinv(np.eye(self.n) - param * self.A))
+        k = np.nan_to_num(np.linalg.pinv(np.eye(self.n) - param * self.A)).real
         return np.log(k)
 
     @property
