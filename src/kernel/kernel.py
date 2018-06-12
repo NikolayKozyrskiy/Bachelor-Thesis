@@ -1,3 +1,4 @@
+import scipy
 from abc import abstractmethod, ABC
 
 from scipy.linalg import expm
@@ -127,5 +128,44 @@ class LogHeat(Kernel):
     def scaler(self):
         return Fraction(self.A)
 
+class SigmoidCommuteTime(Kernel):
+    name='SigmoidCommuteTime'
+
+    def get_K(self, param):
+        Kct = np.linalg.pinv(self.get_L()).real
+        for i in range(0, Kct.shape[0]):
+            for j in range(0, Kct.shape[1]):
+                Kct[i, j] = 1.0 / (1.0 + param * np.exp(-1.0 * Kct[i, j]))
+        return Kct
+
+    @property
+    def scaler(self):
+        return Fraction(self.A)
+
+class SigmoidCorrectedCommuteTime(Kernel):
+    name='SigmoidCorrectedCommuteTime'
+
+    def get_K(self, param):
+        H = np.eye(self.n) - np.dot(np.ones(self.n), np.ones(self.n).T)/self.n
+        D_inv = np.linalg.pinv(self.get_D())
+        for i in range(D_inv.shape[0]):
+            for j in range(D_inv.shape[1]):
+                D_inv[i, j] = pow(D_inv[i, j], 1./2)
+        d = self.A*np.ones(self.n)
+        vol = sum((self.A != 0).sum(0))/2
+        M = np.dot(np.dot(D_inv, (self.A - np.dot(d, d.T) / vol)), D_inv)
+        Kcct = np.dot(np.dot(np.dot(np.dot(np.dot(np.dot(H, D_inv), M),
+                                            np.linalg.pinv(np.eye(self.n) - M)), M), D_inv), H)
+        # Kcct = H * D_inv * M * np.linalg.pinv(np.eye(self.n) - M) * M * D_inv * H
+        for i in range(0, Kcct.shape[0]):
+            for j in range(0, Kcct.shape[1]):
+                Kcct[i, j] = 1.0 / (1.0 + param * np.exp(-1.0 * Kcct[i, j]))
+        return Kcct
+
+    @property
+    def scaler(self):
+        return Fraction(self.A)
+
 def get_all_kernels():
-    return [PlainWalk, LogPlainWalk, Communicability, LogCommunicability, Forest, LogForest, Heat, LogHeat]
+    return [PlainWalk, LogPlainWalk, Communicability, LogCommunicability,
+            Forest, LogForest, Heat, LogHeat, SigmoidCommuteTime]

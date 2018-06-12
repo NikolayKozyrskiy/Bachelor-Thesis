@@ -55,7 +55,7 @@ class KernelKMeans(BaseEstimator, ClusterMixin):
             mask = self.labels_ == i
 
             if np.sum(mask) == 0:
-                print("Empty cluster found, try smaller n_cluster")
+                # print("Empty cluster found, try smaller n_cluster")
                 break
                 # raise ValueError("Empty cluster found, try smaller n_cluster.")
 
