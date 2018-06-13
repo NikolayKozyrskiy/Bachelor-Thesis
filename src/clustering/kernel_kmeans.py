@@ -56,7 +56,7 @@ class KernelKMeans(BaseEstimator, ClusterMixin):
 
             if np.sum(mask) == 0:
                 # print("Empty cluster found, try smaller n_cluster")
-                break
+                return False
                 # raise ValueError("Empty cluster found, try smaller n_cluster.")
 
             denom = sw[mask].sum()

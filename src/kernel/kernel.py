@@ -59,7 +59,7 @@ class LogPlainWalk(Kernel):
 
     def get_K(self, param):
         k = np.nan_to_num(np.linalg.pinv(np.eye(self.n) - param * self.A)).real
-        return np.log(k)
+        return np.nan_to_num(np.log(k))
 
     @property
     def scaler(self):
@@ -80,7 +80,7 @@ class LogCommunicability(Kernel):
 
     def get_K(self, param):
         k = np.nan_to_num(expm(param * self.A))
-        return k
+        return np.nan_to_num(np.log(k))
 
     @property
     def scaler(self):
@@ -101,7 +101,7 @@ class LogForest(Kernel):
 
     def get_K(self, param):
         k = np.nan_to_num(np.linalg.pinv(np.eye(self.n) + param * self.get_L()))
-        return k
+        return np.nan_to_num(np.log(k))
 
     @property
     def scaler(self):
@@ -122,7 +122,7 @@ class LogHeat(Kernel):
 
     def get_K(self, param):
         k = np.nan_to_num(expm(-param * self.get_L()))
-        return k
+        return np.nan_to_num(np.log(k))
 
     @property
     def scaler(self):
@@ -136,7 +136,7 @@ class SigmoidCommuteTime(Kernel):
         for i in range(0, Kct.shape[0]):
             for j in range(0, Kct.shape[1]):
                 Kct[i, j] = 1.0 / (1.0 + param * np.exp(-1.0 * Kct[i, j]))
-        return Kct
+        return np.nan_to_num(Kct)
 
     @property
     def scaler(self):

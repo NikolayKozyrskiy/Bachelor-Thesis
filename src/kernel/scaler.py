@@ -18,7 +18,7 @@ class Rho(Scaler):  # plain walk
         self.rho = np.max(eigvals)
 
     def scale(self, param):
-        return param / self.rho
+        return (param / self.rho).real
 
 
 class Fraction(Scaler):  # communicability
