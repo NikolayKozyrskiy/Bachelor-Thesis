@@ -8,7 +8,7 @@ import numpy as np
 
 
 class Kernel(ABC):
-    default_params = np.arange(0.05, 1, 0.025)
+    default_params = np.arange(0.02, 1, 0.02)
 
     def __init__(self, A):
         self.A = A
@@ -142,6 +142,22 @@ class SigmoidCommuteTime(Kernel):
     def scaler(self):
         return Fraction(self.A)
 
+
+class LogSigmoidCommuteTime(Kernel):
+    name = 'LogSigmoidCommuteTime'
+
+    def get_K(self, param):
+        Kct = np.linalg.pinv(self.get_L()).real
+        for i in range(0, Kct.shape[0]):
+            for j in range(0, Kct.shape[1]):
+                Kct[i, j] = 1.0 / (1.0 + param * np.exp(-1.0 * Kct[i, j]))
+        return np.nan_to_num(np.log(Kct))
+
+    @property
+    def scaler(self):
+        return Fraction(self.A)
+
+
 class SigmoidCorrectedCommuteTime(Kernel):
     name='SigmoidCorrectedCommuteTime'
 
@@ -168,4 +184,4 @@ class SigmoidCorrectedCommuteTime(Kernel):
 
 def get_all_kernels():
     return [PlainWalk, LogPlainWalk, Communicability, LogCommunicability,
-            Forest, LogForest, Heat, LogHeat, SigmoidCommuteTime]
+            Forest, LogForest, Heat, LogHeat, SigmoidCommuteTime, LogSigmoidCommuteTime]
