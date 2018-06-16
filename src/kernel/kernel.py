@@ -8,7 +8,7 @@ import numpy as np
 
 
 class Kernel(ABC):
-    default_params = np.arange(0.02, 1, 0.02)
+    default_params = np.arange(0.05, 1, 0.025)
 
     def __init__(self, A):
         self.A = A
@@ -24,6 +24,7 @@ class Kernel(ABC):
         return Ks
 
     def get_D(self):
+        self.A = 0.5 * (self.A + self.A.T)
         return np.diag(np.sum(self.A, axis=0))
 
     def get_L(self):

@@ -33,13 +33,11 @@ class KernelKMeans(BaseEstimator, ClusterMixin):
 
         for it in range(self.max_iter):
             dist.fill(0)
-            self._compute_dist(K, dist, self.within_distances_,
-                               update_within=True)
+            self._compute_dist(K, dist, self.within_distances_, update_within=True)
             labels_old = self.labels_
             self.labels_ = dist.argmin(axis=1)
 
-            # Compute the number of samples whose cluster did not change
-            # since last iteration.
+            # Compute the number of samples whose cluster has not changed since last iteration.
             n_same = np.sum((self.labels_ - labels_old) == 0)
             if 1 - float(n_same) / n_samples < self.tol:
                 break
@@ -75,6 +73,5 @@ class KernelKMeans(BaseEstimator, ClusterMixin):
     def predict(self, K):
         n_samples = K.shape[0]
         dist = np.zeros((n_samples, self.n_clusters))
-        self._compute_dist(K, dist, self.within_distances_,
-                           update_within=False)
+        self._compute_dist(K, dist, self.within_distances_, update_within=False)
         return dist.argmin(axis=1)

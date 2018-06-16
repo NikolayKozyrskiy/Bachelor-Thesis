@@ -25,7 +25,7 @@ class VanillaKernelKMeans(BaseEstimator, ClusterMixin):
         e = np.eye(n)
         nn = np.zeros((self.m,))
 
-        for i in range(100):
+        for i in range(50):
             U = np.zeros((n, self.m))
             for i in range(0, n):
                 ka = np.argmin([(h[k] - e[i])[None].dot(K).dot((h[k] - e[i])[None].T) for k in range(0, self.m)])
