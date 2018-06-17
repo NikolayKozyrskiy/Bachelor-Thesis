@@ -133,10 +133,11 @@ class SigmoidCommuteTime(Kernel):
     name='SigmoidCommuteTime'
 
     def get_K(self, param):
-        Kct = np.linalg.pinv(self.get_L()).real
+        Kct = np.linalg.pinv(self.get_L())
+        sigma = Kct.std()
         for i in range(0, Kct.shape[0]):
             for j in range(0, Kct.shape[1]):
-                Kct[i, j] = 1.0 / (1.0 + param * np.exp(-1.0 * Kct[i, j]))
+                Kct[i, j] = 1.0 / (1.0 + param * np.exp(-1.0 * Kct[i, j])/sigma)
         return np.nan_to_num(Kct)
 
     @property

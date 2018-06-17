@@ -3,8 +3,6 @@ import random
 from src.graph.graph import Graph
 import numpy as np
 
-
-# TODO make new generator with non equal quality of nodes in each cluster
 class GraphGenerator(object):
     def __init__(self, n, clusters, p_in, p_out):
         self.n = n
